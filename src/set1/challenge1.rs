@@ -1,14 +1,5 @@
-fn hex_to_bytes(hex_input: &str) -> Vec<u8> {
+use set1::utils::hex_to_bytes;
 
-    let hex_vec: Vec<_> = hex_input.chars().rev().collect();
-
-    hex_vec.chunks(2).map(|chunk| {
-        let second_byte = chunk[0].to_digit(16).unwrap();
-        let first_byte = chunk.get(1).unwrap_or(&'0').to_digit(16).unwrap();
-        (first_byte << 4 | second_byte) as u8
-    }).rev().collect()
-
-}
 
 fn hex_to_base64(input: &str) -> String {
     bytes_to_base64(&hex_to_bytes(input))
