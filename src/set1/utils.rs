@@ -11,6 +11,11 @@ pub fn hex_to_bytes(hex_input: &str) -> Vec<u8> {
 }
 
 
+pub fn bytes_to_hex(bytes_input: &[u8]) -> String {
+    bytes_input.iter().map(|x| format!("{:x}", x)).collect()
+}
+
+
 #[test]
 fn test_hex_to_bytes() {
     assert_eq!(hex_to_bytes("ff"), [255]);
@@ -19,4 +24,14 @@ fn test_hex_to_bytes() {
 #[test]
 fn test_hex_to_bytes_f() {
     assert_eq!(hex_to_bytes("f"), [15]);
+}
+
+#[test]
+fn test_bytes_to_hex_f() {
+    assert_eq!(bytes_to_hex(&[15]), "f");
+}
+
+#[test]
+fn test_bytes_to_hex() {
+    assert_eq!(bytes_to_hex(&[255]), "ff");
 }
