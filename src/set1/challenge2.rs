@@ -1,7 +1,7 @@
 use set1::utils::hex_to_bytes;
 use set1::utils::bytes_to_hex;
 
-fn fixed_xor(first: &[u8], second: &[u8]) -> Vec<u8> {
+pub fn fixed_xor(first: &[u8], second: &[u8]) -> Vec<u8> {
     first.iter().zip(second.iter()).map(|(x, y)| x ^ y).collect()
 }
 

@@ -15,7 +15,6 @@ pub fn bytes_to_hex(bytes_input: &[u8]) -> String {
     bytes_input.iter().map(|x| format!("{:x}", x)).collect()
 }
 
-
 #[test]
 fn test_hex_to_bytes() {
     assert_eq!(hex_to_bytes("ff"), [255]);
