@@ -34,7 +34,7 @@ fn find_original(text: &str) -> String {
     let strings_for_xor: Vec<String> =
         alphabet.chars().map(|x| repeat(x).take(text.len()).collect::<String>()).collect();
 
-    let (_, translated) = strings_for_xor.iter()
+    strings_for_xor.iter()
         .map(|x| {
             let xor = fixed_xor(&hex_to_bytes(text), &x.as_bytes());
             let string = match String::from_utf8(xor) {
@@ -44,9 +44,7 @@ fn find_original(text: &str) -> String {
             (chi_squared(&string), string)
         })
         .min_by(|a, b| a.0.partial_cmp(&b.0).unwrap())
-        .unwrap();
-
-    translated
+        .unwrap().1
 
 
 }
