@@ -1,4 +1,3 @@
-use std::iter::FromIterator;
 use std::iter::repeat;
 
 use set1::challenge2::fixed_xor;
