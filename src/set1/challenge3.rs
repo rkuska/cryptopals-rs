@@ -1,8 +1,7 @@
-use std::iter::repeat;
 use set1::challenge2::fixed_xor;
 use set1::utils::hex_to_bytes;
 
-fn chi_squared(text: &str) -> f32 {
+pub fn chi_squared(text: &str) -> f32 {
     let mut chars_count = vec![0.0; 26];
     let mut ignored = 0;
     for byte in text.bytes() {
@@ -25,32 +24,23 @@ fn chi_squared(text: &str) -> f32 {
          0.02758, 0.00978, 0.02360, 0.00150, 0.01974, 0.00074]
         .iter()
         .zip(chars_count.iter())
-        .map(|(x, y)| (y - x * length).powf(2.0) / (x * length))
+        .map(|(x, y)| (y - x * (text.len() as f32 + ignored as f32)).powf(2.0) / (x * length))
         .sum()
 }
 
-fn find_original(text: &str) -> String {
-    let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let strings_for_xor: Vec<String> =
-        alphabet.chars().map(|x| repeat(x).take(text.len()).collect::<String>()).collect();
-
-    strings_for_xor.iter()
-        .map(|x| {
-            let xor = fixed_xor(&hex_to_bytes(text), &x.as_bytes());
-            let string = match String::from_utf8(xor) {
-                Ok(v) => v,
-                Err(e) => String::new(),
-            };
-            (chi_squared(&string), string)
+pub fn find_original(text: &str) -> Option<(f32, String)>{
+    (0..255).filter_map(|x| {
+            let cipher = vec![x; text.len()];
+            let xor = fixed_xor(&hex_to_bytes(text), &cipher);
+            String::from_utf8(xor).ok()
         })
+        .map(|x| (chi_squared(&x), x))
+        .filter(|&(x, _)| x.is_finite())
         .min_by(|a, b| a.0.partial_cmp(&b.0).unwrap())
-        .unwrap().1
-
-
 }
 
 #[test]
-fn test_chi_squared_A() {
+fn test_chi_squared_upper_a() {
     assert_eq!(chi_squared("A"), 11.244388)
 }
 
@@ -61,6 +51,6 @@ fn test_chi_squared_a() {
 
 #[test]
 fn test_find_original() {
-    assert_eq!(find_original("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"),
-               "Cooking MC\'s like a pound of bacon")
+    assert_eq!(find_original("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736").unwrap().1,
+               String::from("Cooking MC\'s like a pound of bacon"))
 }
