@@ -35,7 +35,6 @@ pub fn find_original(text: &str) -> Option<(f32, String)>{
             String::from_utf8(xor).ok()
         })
         .map(|x| (chi_squared(&x), x))
-        .filter(|&(x, _)| x.is_finite())
         .min_by(|a, b| a.0.partial_cmp(&b.0).unwrap())
 }
 
