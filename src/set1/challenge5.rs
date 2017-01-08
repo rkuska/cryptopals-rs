@@ -6,7 +6,7 @@ use set1::utils::bytes_to_hex;
 fn repeating_xor(text: &[u8], key: &[u8]) -> String {
     bytes_to_hex(&fixed_xor(text,
                             &(repeat(key)
-                                .take(text.len() / 3 + 1)
+                                .take(text.len() / key.len() + 1)
                                 .flat_map(|x| x.iter().cloned())
                                 .collect::<Vec<_>>())))
 
