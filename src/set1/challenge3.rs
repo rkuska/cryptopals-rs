@@ -28,10 +28,10 @@ pub fn chi_squared(text: &str) -> f32 {
         .sum()
 }
 
-pub fn find_original(text: &str) -> Option<(f32, String)>{
+pub fn find_original(text: &[u8]) -> Option<(f32, String)>{
     (0..255).filter_map(|x| {
             let cipher = vec![x; text.len()];
-            let xor = fixed_xor(&hex_to_bytes(text), &cipher);
+            let xor = fixed_xor(text, &cipher);
             String::from_utf8(xor).ok()
         })
         .map(|x| (chi_squared(&x), x))
@@ -50,6 +50,6 @@ fn test_chi_squared_a() {
 
 #[test]
 fn test_find_original() {
-    assert_eq!(find_original("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736").unwrap().1,
+    assert_eq!(find_original(&hex_to_bytes("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")).unwrap().1,
                String::from("Cooking MC\'s like a pound of bacon"))
 }
