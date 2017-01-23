@@ -12,5 +12,5 @@ fn find_line(path: &str) -> String {
 
 #[test]
 fn test_find_line(){
-    assert_eq!(find_line("./crypto_challenge.txt"), "Now that the party is jumping\n")
+    assert_eq!(find_line("./files/challenge-4.txt"), "Now that the party is jumping\n")
 }

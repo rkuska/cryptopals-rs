@@ -99,7 +99,7 @@ fn test_find_keysize() {
 
 #[test]
 fn test_decrypt_repeated_xor() {
-    assert!(decrypt_repeated_xor_from_file("./6.txt").starts_with("I'm back and I'm ringin"));
+    assert!(decrypt_repeated_xor_from_file("./files/challenge-6.txt").starts_with("I'm back and I'm ringin"));
 }
 
 #[test]
