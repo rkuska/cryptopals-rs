@@ -10,7 +10,8 @@ use set1::challenge2::fixed_xor;
 use set1::challenge3::find_original;
 
 
-fn base64_to_bytes(base64: &[u8]) -> Vec<u8> {
+//TODO move to utils
+pub fn base64_to_bytes(base64: &[u8]) -> Vec<u8> {
     let mut output:Vec<u8> = Vec::new();
     let base64_map =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -61,7 +62,8 @@ fn transpose(matrix: Vec<Vec<u8>>) -> Vec<Vec<u8>> {
 }
 
 
-fn load_file(path: &str) -> Vec<u8> {
+//TODO move to utils
+pub fn load_file(path: &str) -> Vec<u8> {
     let file = BufReader::new(File::open(path).expect("Error when reading file <challenge 6>"));
     file.lines().flat_map(|line| line.unwrap().into_bytes()).collect::<Vec<_>>()
 }

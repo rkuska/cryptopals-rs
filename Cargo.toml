@@ -5,3 +5,4 @@ authors = ["Robert Kuska <rkuska@gmail.com>"]
 
 [dependencies]
 itertools = "*"
+rust-crypto = "^0.2"
