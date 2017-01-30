@@ -68,7 +68,7 @@ pub fn load_file(path: &str) -> Vec<u8> {
     file.lines().flat_map(|line| line.unwrap().into_bytes()).collect::<Vec<_>>()
 }
 
-fn decrypt_repeated_xor(base64: &[u8]) -> String {
+fn decrypt_repeated_xor(base64: &[u8]) -> Vec<u8> {
     let bytes = base64_to_bytes(base64);
     let keysize = find_likely_keysize(&bytes, 40).unwrap().0;
     let transposed = transpose(bytes.chunks(keysize).map(|chunk| chunk.to_vec()).collect::<Vec<_>>());
@@ -76,10 +76,10 @@ fn decrypt_repeated_xor(base64: &[u8]) -> String {
         .iter()
         .map(|x| find_original(&x).unwrap().1.into_bytes())
         .collect::<Vec<_>>();
-    String::from_utf8(transpose(transposed_text.clone()).into_iter().flat_map(|vec| vec).collect::<Vec<_>>()).unwrap()
+    transpose(transposed_text.clone()).into_iter().flat_map(|vec| vec).collect::<Vec<_>>()
 }
 
-fn decrypt_repeated_xor_from_file(path: &str) -> String {
+fn decrypt_repeated_xor_from_file(path: &str) -> Vec<u8> {
     decrypt_repeated_xor(&load_file(path))
 }
 
@@ -101,7 +101,7 @@ fn test_find_keysize() {
 
 #[test]
 fn test_decrypt_repeated_xor() {
-    assert!(decrypt_repeated_xor_from_file("./files/challenge-6.txt").starts_with("I'm back and I'm ringin"));
+    assert!(String::from_utf8(decrypt_repeated_xor_from_file("./files/challenge-6.txt")).unwrap().starts_with("I'm back and I'm ringin"));
 }
 
 #[test]
