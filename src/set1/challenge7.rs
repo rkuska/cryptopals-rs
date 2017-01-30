@@ -6,14 +6,13 @@ use self::crypto::blockmodes;
 use self::crypto::buffer::{RefReadBuffer, ReadBuffer, RefWriteBuffer, WriteBuffer, BufferResult};
 use self::crypto::symmetriccipher;
 
-use set1::challenge6::base64_to_bytes;
-use set1::challenge6::load_file;
+use set1::challenge6::{base64_to_bytes, load_file};
 
 
 fn decrypt_aes_ecb(encrypted_data: &[u8],
                    key: &[u8])
                    -> Result<Vec<u8>, symmetriccipher::SymmetricCipherError> {
-    let mut decryptor = ecb_decryptor(KeySize::KeySize128, key, blockmodes::PkcsPadding);
+    let mut decryptor = ecb_decryptor(KeySize::KeySize128, key, blockmodes::NoPadding);
     let mut read_buffer = RefReadBuffer::new(encrypted_data);
     let mut buffer = [0; 4096];
     let mut write_buffer = RefWriteBuffer::new(&mut buffer);
