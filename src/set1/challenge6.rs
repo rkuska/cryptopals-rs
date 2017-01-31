@@ -37,7 +37,7 @@ fn hamming_distance(first: &[u8], second: &[u8]) -> i32 {
 }
 
 
-fn compute_weight(keysize: usize, bytes: &[u8]) -> f32 {
+pub fn compute_weight(keysize: usize, bytes: &[u8]) -> f32 {
      let bytes_pair = bytes.chunks(keysize).take(4).combinations(2);
      bytes_pair.map(|pair| hamming_distance(&pair[0], &pair[1]) as f32 / keysize as f32).sum()
 }
