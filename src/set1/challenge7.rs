@@ -1,6 +1,5 @@
 extern crate crypto;
 
-use self::crypto::aesni;
 use self::crypto::aes::{KeySize, ecb_decryptor};
 use self::crypto::blockmodes;
 use self::crypto::buffer::{RefReadBuffer, ReadBuffer, RefWriteBuffer, WriteBuffer, BufferResult};
