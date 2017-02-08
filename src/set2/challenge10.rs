@@ -2,7 +2,7 @@ use set1::challenge2::fixed_xor;
 use set1::challenge6::{base64_to_bytes, load_file};
 use set1::challenge7::{encrypt_aes_ecb, decrypt_aes_ecb};
 
-fn encrypt_aes_cbc(plaintext: &[u8], key: &[u8], iv_char: u8) -> Vec<u8> {
+pub fn encrypt_aes_cbc(plaintext: &[u8], key: &[u8], iv_char: u8) -> Vec<u8> {
     let mut iv = vec![iv_char; 16];
     let encrypted = plaintext.chunks(16)
         .flat_map(|text_block| {
